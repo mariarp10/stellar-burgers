@@ -8,7 +8,9 @@ export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
 
     const handleMoveUp = () => {};
 
-    const handleClose = () => {};
+    const handleClose = () => {
+      console.log('handling close');
+    };
 
     return (
       <BurgerConstructorElementUI

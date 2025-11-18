@@ -16,10 +16,7 @@ const initialState: TIngredientsState = {
 // async thunk-функция для получения ингериентов с сервера
 export const fetchIngredients = createAsyncThunk(
   'fetchIngredients',
-  async () => {
-    const result = getIngredientsApi();
-    return result;
-  }
+  async () => await getIngredientsApi()
 );
 
 const ingredientsSlice = createSlice({
@@ -28,7 +25,6 @@ const ingredientsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.ingredients = action.payload;
     });
   }
