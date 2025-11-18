@@ -45,7 +45,7 @@ const App = () => {
               onClose={() => {
                 navigate('/feed');
               }}
-              title={'test title order info'}
+              title={''}
             >
               <OrderInfo />
             </Modal>
@@ -86,7 +86,7 @@ const App = () => {
           path='/ingredients/:id'
           element={
             <Modal
-              title='test title ingredients'
+              title='Детали ингредиента'
               onClose={() => {
                 navigate('/');
               }}

@@ -20,9 +20,16 @@ const burgerConstructorSlice = createSlice({
     },
     addIngredient(state, action) {
       state.ingredients.push(action.payload);
+    },
+    deleteIngredient(state, action) {
+      const idToDelete = action.payload;
+      state.ingredients = state.ingredients.filter(
+        (item) => item._id !== idToDelete
+      );
     }
   }
 });
 
 export const burgerReducer = burgerConstructorSlice.reducer;
-export const { addBun, addIngredient } = burgerConstructorSlice.actions;
+export const { addBun, addIngredient, deleteIngredient } =
+  burgerConstructorSlice.actions;
