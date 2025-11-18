@@ -18,8 +18,19 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
 import { useNavigate } from 'react-router-dom';
 
+import { useDispatch } from '../../services/store';
+
+import { useEffect } from 'react';
+
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+
 const App = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
