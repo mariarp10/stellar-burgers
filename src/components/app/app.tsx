@@ -11,14 +11,26 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
-import { useNavigate } from 'react-router-dom';
+import { fetchFeed } from '../../services/slices/feedSlice';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+
+import { useEffect } from 'react';
+
+import { useDispatch } from '../../services/store';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+    dispatch(fetchFeed());
+  }, [dispatch]);
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -59,7 +71,7 @@ const App = () => {
               onClose={() => {
                 navigate('/feed');
               }}
-              title={''}
+              title={'Детали заказа'}
             >
               <OrderInfo />
             </Modal>
