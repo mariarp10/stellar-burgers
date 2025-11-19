@@ -10,25 +10,23 @@ import {
 
 import { NavLink } from 'react-router-dom';
 
-export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
+export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
+  userName,
+  constructorIsActive,
+  feedIsActive
+}) => (
   <header className={styles.header}>
     <nav className={`${styles.menu} p-4`}>
       <div className={styles.menu_part_left}>
         <>
           <NavLink
             to='/'
-            className={({ isActive }) =>
-              `${styles.link} ${isActive ? styles.link_active : ''}`
-            }
+            className={`${styles.link} ${constructorIsActive ? styles.link_active : ''}`}
           >
-            {({ isActive }) => (
-              <>
-                <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
-                <p className='text text_type_main-default ml-2 mr-10'>
-                  Конструктор
-                </p>
-              </>
-            )}
+            <BurgerIcon type={constructorIsActive ? 'primary' : 'secondary'} />
+            <p className='text text_type_main-default ml-2 mr-10'>
+              Конструктор
+            </p>
           </NavLink>
         </>
         <>
