@@ -81,6 +81,7 @@ export const getIngredientsApi = () =>
       return Promise.reject(data);
     });
 
+// запрос заказов с сервера
 export const getFeedsApi = () =>
   fetch(`${URL}/orders/all`)
     .then((res) => checkResponse<TFeedsResponse>(res))

@@ -23,13 +23,22 @@ const burgerConstructorSlice = createSlice({
     },
     deleteIngredient(state, action) {
       const idToDelete = action.payload;
-      state.ingredients = state.ingredients.filter(
-        (item) => item._id !== idToDelete
+
+      const index = state.ingredients.findIndex(
+        (item) => item._id === idToDelete
       );
+
+      if (index !== -1) {
+        state.ingredients.splice(index, 1);
+      }
+    },
+    clearIngredients(state) {
+      state.bun = null;
+      state.ingredients = [];
     }
   }
 });
 
 export const burgerReducer = burgerConstructorSlice.reducer;
-export const { addBun, addIngredient, deleteIngredient } =
+export const { addBun, addIngredient, deleteIngredient, clearIngredients } =
   burgerConstructorSlice.actions;

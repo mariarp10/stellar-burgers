@@ -11,32 +11,46 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useDispatch } from '../../services/store';
-
-import { useEffect } from 'react';
-
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
-
 const App = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+  const location = useLocation();
+  const state = location.state as { background?: Location } | null;
+
+  const background = state?.background;
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      {/* модалки */}
+      {background && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal
+                title='Детали ингредиента'
+                onClose={() => {
+                  navigate('/');
+                }}
+              >
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {/* страницы */}
+      <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails asPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/feed/:number'
@@ -82,19 +96,6 @@ const App = () => {
             }
           />
         </Route>
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal
-              title='Детали ингредиента'
-              onClose={() => {
-                navigate('/');
-              }}
-            >
-              <IngredientDetails />
-            </Modal>
-          }
-        />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
     </div>

@@ -4,7 +4,11 @@ import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
 import { RootState, useSelector } from '../../services/store';
 
-export const IngredientDetails: FC = () => {
+type IngredientDetailsProps = {
+  asPage?: boolean;
+};
+
+export const IngredientDetails: FC<IngredientDetailsProps> = ({ asPage }) => {
   const { id } = useParams<{ id: string }>();
 
   const ingredients = useSelector(
@@ -17,5 +21,7 @@ export const IngredientDetails: FC = () => {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return (
+    <IngredientDetailsUI ingredientData={ingredientData} asPage={asPage} />
+  );
 };
