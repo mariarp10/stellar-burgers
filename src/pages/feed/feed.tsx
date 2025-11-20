@@ -8,8 +8,6 @@ import { fetchFeed } from '../../services/slices/feedSlice';
 export const Feed: FC = () => {
   const dispatch = useDispatch();
 
-  const feedData = useSelector((state: RootState) => state.feed);
-
   const orders: TOrder[] = useSelector((state: RootState) => state.feed.orders);
 
   if (!orders.length) {

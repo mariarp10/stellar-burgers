@@ -1,19 +1,14 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { RootState, useSelector } from '../../services/store';
-import { stat } from 'fs';
-import { R } from '@storybook/react/dist/types-0fc72a6d';
 import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+  const user = useSelector((state: RootState) => state.user.data);
 
-  const x = useSelector((state: RootState) => state.user.data);
-  console.log(x);
+  if (!user) {
+    return <Preloader />;
+  }
 
   const [formValue, setFormValue] = useState({
     name: user.name,
@@ -63,6 +58,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };

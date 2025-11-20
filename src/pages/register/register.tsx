@@ -39,17 +39,9 @@ export const Register: FC = () => {
 
   const isLoading = useSelector((state: RootState) => state.user.isLoading);
   const formSubmitError = useSelector(
-    (state: RootState) => state.user.formSubmitError
+    (state: RootState) => state.user.serverError
   );
   const isAuth = useSelector((state: RootState) => state.user.isAuth);
-
-  // const { isLoading, formSubmitError, isAuth } = useSelector(
-  //   (state: RootState) => ({
-  //     isLoading: state.user.isLoading,
-  //     formSubmitError: state.user.formSubmitError,
-  //     isAuth: state.user.isAuth
-  //   })
-  // );
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

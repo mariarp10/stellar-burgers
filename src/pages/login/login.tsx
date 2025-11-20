@@ -17,7 +17,7 @@ export const Login: FC = () => {
   const isLoading = useSelector((state: RootState) => state.user.isLoading);
   const isAuth = useSelector((state: RootState) => state.user.isAuth);
   const formSubmitError = useSelector(
-    (state: RootState) => state.user.formSubmitError
+    (state: RootState) => state.user.serverError
   );
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -27,7 +27,7 @@ export const Login: FC = () => {
 
   useEffect(() => {
     if (isAuth) {
-      navigate('/profile');
+      navigate('/');
     }
   }, [isAuth, navigate]);
 
