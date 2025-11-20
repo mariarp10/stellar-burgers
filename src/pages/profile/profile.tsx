@@ -1,27 +1,24 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { RootState, useSelector } from '../../services/store';
-import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   const user = useSelector((state: RootState) => state.user.data);
 
-  if (!user) {
-    return <Preloader />;
-  }
-
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: user?.name || '',
+    email: user?.email || '',
     password: ''
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
+    if (user) {
+      setFormValue((prevState) => ({
+        ...prevState,
+        name: user?.name || '',
+        email: user?.email || ''
+      }));
+    }
   }, [user]);
 
   const isFormChanged =
@@ -36,8 +33,8 @@ export const Profile: FC = () => {
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: user?.name || '',
+      email: user?.email || '',
       password: ''
     });
   };

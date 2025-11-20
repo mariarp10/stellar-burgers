@@ -8,27 +8,15 @@ import {
   getUserApi
 } from '@api';
 import { TUser } from '@utils-types';
-import { setCookie, deleteCookie, getCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie } from '../../utils/cookie';
 
-export const userRegisterThunk = createAsyncThunk(
-  'user/register',
-  async (newUserData: TRegisterData) => await registerUserApi(newUserData)
-);
+export const userRegister = createAsyncThunk('user/register', registerUserApi);
 
-export const userLoginThunk = createAsyncThunk(
-  'user/login',
-  async (loginData: TLoginData) => await loginUserApi(loginData)
-);
+export const userLogin = createAsyncThunk('user/login', loginUserApi);
 
-export const userLogoutThunk = createAsyncThunk(
-  'user/logout',
-  async () => await logoutApi()
-);
+export const userLogout = createAsyncThunk('user/logout', logoutApi);
 
-export const getUserThunk = createAsyncThunk(
-  'user/get',
-  async () => await getUserApi()
-);
+export const getUser = createAsyncThunk('user/get', getUserApi);
 
 type TUserState = {
   data: TUser | null;
@@ -51,10 +39,10 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     // регистрация
     builder
-      .addCase(userRegisterThunk.pending, (state) => {
+      .addCase(userRegister.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(userRegisterThunk.fulfilled, (state, action) => {
+      .addCase(userRegister.fulfilled, (state, action) => {
         state.data = action.payload.user;
         state.isLoading = false;
         state.serverError = '';
@@ -63,7 +51,7 @@ export const userSlice = createSlice({
         setCookie('accessToken', action.payload.accessToken);
         setCookie('refreshToken', action.payload.refreshToken);
       })
-      .addCase(userRegisterThunk.rejected, (state, action) => {
+      .addCase(userRegister.rejected, (state, action) => {
         state.serverError = action.error.message
           ? action.error.message
           : 'Произошла ошибка на сервере';
@@ -71,12 +59,10 @@ export const userSlice = createSlice({
       });
     // логин
     builder
-      .addCase(userLoginThunk.pending, (state, action) => {
-        console.log('отправка запроса на сервер');
+      .addCase(userLogin.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(userLoginThunk.fulfilled, (state, action) => {
-        console.log('успешный логин');
+      .addCase(userLogin.fulfilled, (state, action) => {
         state.data = action.payload.user;
         state.isLoading = false;
         state.serverError = '';
@@ -85,16 +71,14 @@ export const userSlice = createSlice({
         setCookie('accessToken', action.payload.accessToken);
         setCookie('refreshToken', action.payload.refreshToken);
       })
-      .addCase(userLoginThunk.rejected, (state, action) => {
-        console.log('не получилось залогиниться 😭😭😭');
-
+      .addCase(userLogin.rejected, (state, action) => {
         state.serverError = action.error.message
           ? action.error.message
-          : 'не получилось залогиниться 😭😭😭';
+          : 'Не получилось выполнить вход';
         state.isLoading = false;
       });
     // логаут
-    builder.addCase(userLogoutThunk.fulfilled, (state) => {
+    builder.addCase(userLogout.fulfilled, (state) => {
       state.data = null;
       state.isAuth = false;
 
@@ -103,16 +87,15 @@ export const userSlice = createSlice({
     });
     // запрос пользователя с сервера
     builder
-      .addCase(getUserThunk.pending, (state) => {
+      .addCase(getUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUserThunk.fulfilled, (state, action) => {
-        console.log('пользователь залогинен');
+      .addCase(getUser.fulfilled, (state, action) => {
         state.isAuth = true;
         state.isLoading = false;
         state.data = action.payload.user;
       })
-      .addCase(getUserThunk.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
         state.serverError = action.error.message ? action.error.message : '';

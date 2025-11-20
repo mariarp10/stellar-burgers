@@ -8,13 +8,15 @@ export const AppHeader: FC = () => {
   const path = location.pathname;
 
   const userName = useSelector((state: RootState) => state.user.data?.name);
+  const isAuth = useSelector((state: RootState) => state.user.isAuth);
 
   const constructorIsActive = path === '/' || path.startsWith('/ingredients');
   const feedIsActive = path.startsWith('/feed');
 
   return (
     <AppHeaderUI
-      userName={userName ? userName : 'Личный кабинет'}
+      isAuth={isAuth}
+      userName={isAuth ? userName : 'Личный кабинет'}
       constructorIsActive={constructorIsActive}
       feedIsActive={feedIsActive}
     />
