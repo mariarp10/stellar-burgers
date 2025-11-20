@@ -2,7 +2,6 @@ import { TIngredient } from '@utils-types';
 
 export type OrderInfoUIProps = {
   orderInfo: TOrderInfo;
-  asPage?: boolean;
 };
 
 type TOrderInfo = {

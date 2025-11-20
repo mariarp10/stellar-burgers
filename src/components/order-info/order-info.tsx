@@ -5,11 +5,7 @@ import { TIngredient } from '@utils-types';
 import { RootState, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 
-type TOrderInfoProps = {
-  asPage?: boolean;
-};
-
-export const OrderInfo: FC<TOrderInfoProps> = ({ asPage }) => {
+export const OrderInfo: FC = () => {
   const { number: orderNumber } = useParams<{ number: string }>();
 
   const orderData = useSelector((state: RootState) => state.feed.orders).find(
@@ -66,5 +62,5 @@ export const OrderInfo: FC<TOrderInfoProps> = ({ asPage }) => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} asPage={asPage} />;
+  return <OrderInfoUI orderInfo={orderInfo} />;
 };

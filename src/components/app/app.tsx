@@ -14,7 +14,13 @@ import styles from './app.module.css';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 
-import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
+import {
+  AppHeader,
+  IngredientDetails,
+  Modal,
+  OrderInfo,
+  OrderInfoModal
+} from '@components';
 
 import { fetchFeed } from '../../services/slices/feedSlice';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
@@ -57,19 +63,7 @@ const App = () => {
               </Modal>
             }
           />
-          <Route
-            path='/feed/:number'
-            element={
-              <Modal
-                onClose={() => {
-                  navigate('/feed');
-                }}
-                title={''}
-              >
-                <OrderInfo />
-              </Modal>
-            }
-          />
+          <Route path='/feed/:number' element={<OrderInfoModal />} />
         </Routes>
       )}
       {/* страницы */}
@@ -77,7 +71,7 @@ const App = () => {
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/ingredients/:id' element={<IngredientDetails asPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:number' element={<OrderInfo asPage />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/login' element={<ProtectedRoute />}>
           <Route path='/login' element={<Login />} />
         </Route>
