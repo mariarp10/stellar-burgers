@@ -57,7 +57,6 @@ export const fetchWithRefresh = async <T>(
   }
 };
 
-// с сервера приходит массив ингредиентов
 type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
@@ -72,7 +71,6 @@ type TOrdersResponse = TServerResponse<{
   data: TOrder[];
 }>;
 
-// запрос массива ингредиентов с сервера
 export const getIngredientsApi = () =>
   fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
@@ -81,7 +79,6 @@ export const getIngredientsApi = () =>
       return Promise.reject(data);
     });
 
-// запрос заказов с сервера
 export const getFeedsApi = () =>
   fetch(`${URL}/orders/all`)
     .then((res) => checkResponse<TFeedsResponse>(res))

@@ -24,6 +24,7 @@ import {
 
 import { fetchFeed } from '../../services/slices/feedSlice';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { getUserThunk } from '@services/slices/userSlice';
 
 import { useEffect } from 'react';
 
@@ -35,6 +36,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchIngredients());
     dispatch(fetchFeed());
+    dispatch(getUserThunk());
   }, [dispatch]);
 
   const navigate = useNavigate();
