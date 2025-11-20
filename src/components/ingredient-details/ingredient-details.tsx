@@ -4,11 +4,11 @@ import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
 import { RootState, useSelector, useDispatch } from '../../services/store';
 
-type IngredientDetailsProps = {
+type TIngredientDetailsProps = {
   asPage?: boolean;
 };
 
-export const IngredientDetails: FC<IngredientDetailsProps> = ({ asPage }) => {
+export const IngredientDetails: FC<TIngredientDetailsProps> = ({ asPage }) => {
   const { id } = useParams<{ id: string }>();
 
   const ingredients = useSelector(

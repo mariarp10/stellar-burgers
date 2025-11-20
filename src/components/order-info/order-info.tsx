@@ -3,18 +3,18 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { RootState, useSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
 
-export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+type TOrderInfoProps = {
+  asPage?: boolean;
+};
+
+export const OrderInfo: FC<TOrderInfoProps> = ({ asPage }) => {
+  const { number: orderNumber } = useParams<{ number: string }>();
+
+  const orderData = useSelector((state: RootState) => state.feed.orders).find(
+    (item) => item.number === Number(orderNumber)
+  );
 
   const ingredients: TIngredient[] = useSelector(
     (state: RootState) => state.ingredientsArray.ingredients
@@ -66,5 +66,5 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return <OrderInfoUI orderInfo={orderInfo} asPage={asPage} />;
 };

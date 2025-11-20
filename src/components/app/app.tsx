@@ -57,6 +57,19 @@ const App = () => {
               </Modal>
             }
           />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal
+                onClose={() => {
+                  navigate('/feed');
+                }}
+                title={''}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
         </Routes>
       )}
       {/* страницы */}
@@ -64,19 +77,7 @@ const App = () => {
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/ingredients/:id' element={<IngredientDetails asPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal
-              onClose={() => {
-                navigate('/feed');
-              }}
-              title={'Детали заказа'}
-            >
-              <OrderInfo />
-            </Modal>
-          }
-        />
+        <Route path='/feed/:number' element={<OrderInfo asPage />} />
         <Route path='/login' element={<ProtectedRoute />}>
           <Route path='/login' element={<Login />} />
         </Route>
