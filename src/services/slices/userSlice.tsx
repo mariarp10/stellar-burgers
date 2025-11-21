@@ -23,19 +23,25 @@ type TUserState = {
   isLoading: boolean;
   serverError: string;
   isAuth: boolean;
+  checkAuth: boolean;
 };
 
 const initialState: TUserState = {
   data: null,
   isLoading: false,
   serverError: '',
-  isAuth: false
+  isAuth: false,
+  checkAuth: false
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    finishAuthCheck(state) {
+      state.checkAuth = true;
+    }
+  },
   extraReducers: (builder) => {
     // регистрация
     builder
@@ -94,13 +100,16 @@ export const userSlice = createSlice({
         state.isAuth = true;
         state.isLoading = false;
         state.data = action.payload.user;
+        state.checkAuth = true;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
         state.serverError = action.error.message ? action.error.message : '';
+        state.checkAuth = true;
       });
   }
 });
 
+export const { finishAuthCheck } = userSlice.actions;
 export const userReducer = userSlice.reducer;

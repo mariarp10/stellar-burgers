@@ -10,8 +10,6 @@ import { useEffect } from 'react';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,7 +40,6 @@ export const Register: FC = () => {
   const formSubmitError = useSelector(
     (state: RootState) => state.user.serverError
   );
-  const isAuth = useSelector((state: RootState) => state.user.isAuth);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -56,17 +53,6 @@ export const Register: FC = () => {
     dispatch(userRegister(newUserData));
   };
 
-  useEffect(() => {
-    if (isAuth) {
-      setUserName('');
-      setEmail('');
-      setPassword('');
-      setNameError('');
-      setEmailError('');
-
-      navigate('/profile');
-    }
-  }, [isAuth, navigate]);
 
   if (isLoading) {
     return <Preloader />;

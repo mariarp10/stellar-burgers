@@ -18,7 +18,6 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    isAuth: true,
     userName: 'John Doe',
     constructorIsActive: false,
     feedIsActive: false
@@ -27,7 +26,6 @@ export const LoggedIn: Story = {
 
 export const LoggedOut: Story = {
   args: {
-    isAuth: false,
     userName: undefined,
     constructorIsActive: false,
     feedIsActive: false

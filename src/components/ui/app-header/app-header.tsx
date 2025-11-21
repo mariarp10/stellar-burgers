@@ -11,7 +11,6 @@ import {
 import { NavLink } from 'react-router-dom';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
-  isAuth,
   userName,
   constructorIsActive,
   feedIsActive
@@ -52,7 +51,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({
         <Logo className='' />
       </div>
       <NavLink
-        to={isAuth ? '/profile' : '/login'}
+        to={'/profile'}
         className={({ isActive }) =>
           `${styles.link_position_last} ${styles.link} ${
             isActive ? styles.link_active : ''
