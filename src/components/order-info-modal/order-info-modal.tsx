@@ -9,7 +9,7 @@ export const OrderInfoModal: FC = () => {
 
   return (
     <Modal
-      onClose={() => navigate('/feed')}
+      onClose={() => navigate(-1)}
       title={orderNumber ? `#0${orderNumber}` : ''}
     >
       <OrderInfo />

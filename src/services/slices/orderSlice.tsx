@@ -11,7 +11,6 @@ type TNewOrderState = {
   orderRequest: boolean;
   orderModalData: TOrder | null;
   isModalOpen: boolean;
-  orders: TOrder[];
 };
 
 const initialState: TNewOrderState = {
@@ -19,8 +18,7 @@ const initialState: TNewOrderState = {
   error: '',
   orderRequest: false,
   orderModalData: null,
-  isModalOpen: false,
-  orders: []
+  isModalOpen: false
 };
 
 const orderSlice = createSlice({
@@ -38,7 +36,6 @@ const orderSlice = createSlice({
         state.isModalOpen = true;
       })
       .addCase(sendNewOrder.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.name = action.payload.name;
         state.orderModalData = action.payload.order;
         state.orderRequest = false;

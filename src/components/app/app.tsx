@@ -73,6 +73,14 @@ const App = () => {
             }
           />
           <Route path='/feed/:number' element={<OrderInfoModal />} />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <OrderInfoModal />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       )}
       {/* страницы */}
@@ -133,12 +141,7 @@ const App = () => {
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
-              <Modal
-                title='test title order modal'
-                onClose={() => navigate(-1)}
-              >
-                <OrderInfo />
-              </Modal>
+              <OrderInfo />
             </ProtectedRoute>
           }
         />

@@ -12,9 +12,11 @@ export const ProtectedRoute = ({
   onlyUnAuth = false,
   children
 }: TProtectedRouteProps) => {
-  const { isLoading, isAuth } = useSelector((store: RootState) => store.user);
+  const { isLoading, isAuth, checkAuth } = useSelector(
+    (store: RootState) => store.user
+  );
 
-  if (isLoading) {
+  if (!checkAuth || isLoading) {
     return <Preloader />;
   }
 

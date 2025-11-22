@@ -4,9 +4,10 @@ import {
   loginUserApi,
   logoutApi,
   getUserApi,
-  updateUserApi
+  updateUserApi,
+  getOrdersApi
 } from '@api';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 
 export const userRegister = createAsyncThunk('user/register', registerUserApi);
@@ -14,6 +15,7 @@ export const userLogin = createAsyncThunk('user/login', loginUserApi);
 export const userLogout = createAsyncThunk('user/logout', logoutApi);
 export const getUser = createAsyncThunk('user/get', getUserApi);
 export const updateUser = createAsyncThunk('user/update', updateUserApi);
+export const getUserOrders = createAsyncThunk('user/getOrders', getOrdersApi);
 
 type TUserState = {
   data: TUser | null;
@@ -21,6 +23,7 @@ type TUserState = {
   serverError: string;
   isAuth: boolean;
   checkAuth: boolean;
+  orders: TOrder[];
 };
 
 const initialState: TUserState = {
@@ -28,7 +31,8 @@ const initialState: TUserState = {
   isLoading: false,
   serverError: '',
   isAuth: false,
-  checkAuth: false
+  checkAuth: false,
+  orders: []
 };
 
 export const userSlice = createSlice({
@@ -84,7 +88,6 @@ export const userSlice = createSlice({
     builder.addCase(userLogout.fulfilled, (state) => {
       state.data = null;
       state.isAuth = false;
-      state.checkAuth = false;
 
       deleteCookie('accessToken');
       deleteCookie('refreshToken');
@@ -119,6 +122,9 @@ export const userSlice = createSlice({
         state.serverError =
           action.error.message || 'Не получилось обновить данные';
       });
+    builder.addCase(getUserOrders.fulfilled, (state, action) => {
+      state.orders = action.payload;
+    });
   }
 });
 
