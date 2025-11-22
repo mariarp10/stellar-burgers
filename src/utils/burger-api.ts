@@ -99,7 +99,7 @@ export const getOrdersApi = () =>
     return Promise.reject(data);
   });
 
-type TNewOrderResponse = TServerResponse<{
+export type TNewOrderResponse = TServerResponse<{
   order: TOrder;
   name: string;
 }>;
@@ -230,6 +230,6 @@ export const logoutApi = () =>
       'Content-Type': 'application/json;charset=utf-8'
     },
     body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
+      token: getCookie('refreshToken')
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));

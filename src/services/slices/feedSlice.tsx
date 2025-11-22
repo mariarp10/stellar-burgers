@@ -1,21 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TOrder } from '@utils-types';
+import { sendNewOrder } from './orderSlice';
 
-export const fetchFeed = createAsyncThunk(
-  'fetchFeed',
-  async () => await getFeedsApi()
-);
+export const fetchFeed = createAsyncThunk('fetchFeed', getFeedsApi);
 
 type TFeedState = {
-  success: boolean;
   orders: TOrder[];
   total: number | null;
   totalToday: number | null;
 };
 
 const initialState: TFeedState = {
-  success: false,
   orders: [],
   total: null,
   totalToday: null
@@ -27,8 +23,7 @@ const feedSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchFeed.fulfilled, (state, action) => {
-      const { success, orders, total, totalToday } = action.payload;
-      state.success = success;
+      const { orders, total, totalToday } = action.payload;
       state.orders = orders;
       state.total = total;
       state.totalToday = totalToday;
@@ -37,3 +32,7 @@ const feedSlice = createSlice({
 });
 
 export const feedReducer = feedSlice.reducer;
+// .addCase(sendNewOrder.fulfilled, (state, action) => {
+//         const newOrder = action.payload.order;
+//         state.orders = [newOrder, ...state.orders];
+//       })

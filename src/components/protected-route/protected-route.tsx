@@ -12,15 +12,14 @@ export const ProtectedRoute = ({
   onlyUnAuth = false,
   children
 }: TProtectedRouteProps) => {
-  const { data, isAuth } = useSelector((store: RootState) => store.user);
+  const { isLoading, isAuth } = useSelector((store: RootState) => store.user);
 
-  if (!data) {
+  if (isLoading) {
     return <Preloader />;
   }
 
   // если авторизован то прогоняю со страницы
   if (onlyUnAuth && isAuth) {
-    console.log('логин есть редирект на главную');
     return <Navigate to={'/'} replace />;
   }
 

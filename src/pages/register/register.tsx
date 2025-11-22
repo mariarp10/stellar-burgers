@@ -5,8 +5,6 @@ import { userRegister } from '../../services/slices/userSlice';
 import { TRegisterData } from '@api';
 import { RootState, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
@@ -36,9 +34,8 @@ export const Register: FC = () => {
     }
   };
 
-  const isLoading = useSelector((state: RootState) => state.user.isLoading);
-  const formSubmitError = useSelector(
-    (state: RootState) => state.user.serverError
+  const { isLoading, serverError } = useSelector(
+    (state: RootState) => state.user
   );
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -53,14 +50,13 @@ export const Register: FC = () => {
     dispatch(userRegister(newUserData));
   };
 
-
   if (isLoading) {
     return <Preloader />;
   }
 
   return (
     <RegisterUI
-      errorText={formSubmitError || ''}
+      errorText={serverError || ''}
       email={email}
       userName={userName}
       password={password}
