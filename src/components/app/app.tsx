@@ -72,12 +72,15 @@ const App = () => {
               </Modal>
             }
           />
-          <Route path='/feed/:number' element={<OrderInfoModal />} />
+          <Route
+            path='/feed/:number'
+            element={<OrderInfoModal returnTo='/feed' />}
+          />
           <Route
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <OrderInfoModal />
+                <OrderInfoModal returnTo='/profile/orders' />
               </ProtectedRoute>
             }
           />
