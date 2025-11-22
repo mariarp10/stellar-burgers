@@ -20,12 +20,10 @@ export const ProtectedRoute = ({
     return <Preloader />;
   }
 
-  // если авторизован то прогоняю со страницы
   if (onlyUnAuth && isAuth) {
     return <Navigate to={'/'} replace />;
   }
 
-  // если не авторизован то отправляю логиниться
   if (!onlyUnAuth && !isAuth) {
     return <Navigate to='/login' replace />;
   }

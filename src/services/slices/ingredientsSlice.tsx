@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TIngredient } from '@utils-types';
+import { act } from 'react-dom/test-utils';
 
 type TIngredientsState = {
   ingredients: TIngredient[];
@@ -24,9 +25,20 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-      state.ingredients = action.payload;
-    });
+    builder
+      .addCase(fetchIngredients.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.ingredients = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchIngredients.rejected, (state, action) => {
+        console.log(
+          action.error.message || 'Не удалось загрузить список ингредиентов'
+        );
+        state.isLoading = false;
+      });
   }
 });
 

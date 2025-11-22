@@ -59,9 +59,7 @@ export const userSlice = createSlice({
         setCookie('refreshToken', action.payload.refreshToken);
       })
       .addCase(userRegister.rejected, (state, action) => {
-        state.serverError = action.error.message
-          ? action.error.message
-          : 'Произошла ошибка на сервере';
+        console.log(action.error.message || 'Произошла ошибка на сервере');
         state.isLoading = false;
       });
     // логин
@@ -106,8 +104,10 @@ export const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
-        state.serverError = action.error.message ? action.error.message : '';
         state.checkAuth = true;
+        console.log(
+          action.error.message || 'Не удалось получить данные о пользователе'
+        );
       });
     builder
       .addCase(updateUser.pending, (state) => {
@@ -119,12 +119,18 @@ export const userSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.serverError =
-          action.error.message || 'Не получилось обновить данные';
+        console.log(action.error.message || 'Не получилось обновить данные');
       });
-    builder.addCase(getUserOrders.fulfilled, (state, action) => {
-      state.orders = action.payload;
-    });
+    builder
+      .addCase(getUserOrders.pending, () => {
+        console.log('Запрос истории заказов для пользователя');
+      })
+      .addCase(getUserOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(getUserOrders.rejected, () => {
+        console.log('Не удалось получить историю заказов пользователя');
+      });
   }
 });
 

@@ -7,7 +7,6 @@ export const sendNewOrder = createAsyncThunk('order/sendNew', orderBurgerApi);
 
 type TNewOrderState = {
   name: string;
-  error: string;
   orderRequest: boolean;
   orderModalData: TOrder | null;
   isModalOpen: boolean;
@@ -15,7 +14,6 @@ type TNewOrderState = {
 
 const initialState: TNewOrderState = {
   name: '',
-  error: '',
   orderRequest: false,
   orderModalData: null,
   isModalOpen: false
@@ -41,7 +39,7 @@ const orderSlice = createSlice({
         state.orderRequest = false;
       })
       .addCase(sendNewOrder.rejected, (state, action) => {
-        state.error = action.error.message || 'Не получилось оформить заказ';
+        console.log(action.error.message || 'Не получилось оформить заказ');
       });
   }
 });

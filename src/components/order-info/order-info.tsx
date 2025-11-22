@@ -16,7 +16,6 @@ export const OrderInfo: FC = () => {
     (state: RootState) => state.ingredientsArray.ingredients
   );
 
-  /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
