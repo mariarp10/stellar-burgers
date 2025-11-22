@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import { RootState, useSelector, useDispatch } from '../../services/store';
 import { getUserOrders } from '../../services/slices/userSlice';
 import { useEffect } from 'react';
+import { Preloader } from '@ui';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export const ProfileOrders: FC = () => {
     dispatch(getUserOrders());
   }, [dispatch]);
 
-  const orders: TOrder[] = useSelector((state: RootState) => state.user.orders);
+  const { orders } = useSelector((state: RootState) => state.user);
 
   return <ProfileOrdersUI orders={orders} />;
 };
