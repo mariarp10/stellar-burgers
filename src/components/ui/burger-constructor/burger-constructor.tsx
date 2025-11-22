@@ -12,7 +12,6 @@ import { Preloader, OrderDetailsUI } from '@ui';
 
 export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   constructorItems,
-  orderRequest,
   price,
   orderModalData,
   onOrderClick,
@@ -88,17 +87,14 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
       />
     </div>
 
-    {isModalOpen && orderRequest && (
+    {isModalOpen && (
       <Modal onClose={closeOrderModal} title={'Оформляем заказ...'}>
         <Preloader />
       </Modal>
     )}
 
     {isModalOpen && orderModalData && (
-      <Modal
-        onClose={closeOrderModal}
-        title={orderRequest ? 'Оформляем заказ...' : ''}
-      >
+      <Modal onClose={closeOrderModal} title={''}>
         <OrderDetailsUI orderNumber={orderModalData.number} />
       </Modal>
     )}

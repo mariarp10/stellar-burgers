@@ -3,10 +3,12 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { RootState, useSelector } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
-import { sendNewOrder, closeModal } from '../../services/slices/orderSlice';
+import {
+  sendNewOrder,
+  closeModal,
+  openModal
+} from '../../services/slices/orderSlice';
 import { useDispatch } from '../../services/store';
-import { clearIngredients } from '../../services/slices/burgerConstructorSlice';
-import { fetchFeed } from '../../services/slices/feedSlice';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ export const BurgerConstructor: FC = () => {
 
   const { isAuth } = useSelector((state: RootState) => state.user);
 
-  const { orderRequest, orderModalData, isModalOpen } = useSelector(
+  const { orderModalData, isModalOpen, orderRequestSent } = useSelector(
     (state: RootState) => state.order
   );
 
@@ -26,22 +28,24 @@ export const BurgerConstructor: FC = () => {
     bun: bun,
     ingredients: ingredients
   };
-
+  // не разобралась какой UX лучше для модалки, сделала на свой вкус
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!constructorItems.bun) return;
 
     if (!isAuth) {
       navigate('/login');
-    } else {
-      const ids = [
-        constructorItems.bun._id,
-        ...ingredients.map((item) => item._id),
-        constructorItems.bun._id
-      ];
-      dispatch(sendNewOrder(ids));
-      dispatch(clearIngredients());
-      dispatch(fetchFeed());
+      return;
     }
+
+    if (orderRequestSent) return;
+
+    const ids = [
+      constructorItems.bun._id,
+      ...ingredients.map((item) => item._id),
+      constructorItems.bun._id
+    ];
+    dispatch(openModal());
+    dispatch(sendNewOrder(ids));
   };
 
   const closeOrderModal = () => {
@@ -61,7 +65,6 @@ export const BurgerConstructor: FC = () => {
   return (
     <BurgerConstructorUI
       price={price}
-      orderRequest={orderRequest}
       constructorItems={constructorItems}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}

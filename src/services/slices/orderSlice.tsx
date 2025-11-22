@@ -1,22 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { orderBurgerApi, TNewOrderResponse } from '@api';
+import { orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
-import { fetchFeed } from '../slices/feedSlice';
+import { fetchFeed } from './feedSlice';
+import { clearIngredients } from './burgerConstructorSlice';
 
-export const sendNewOrder = createAsyncThunk('order/sendNew', orderBurgerApi);
+export const sendNewOrder = createAsyncThunk(
+  'order/sendNew',
+  async (ingredientIds: string[], { dispatch }) => {
+    const result = await orderBurgerApi(ingredientIds);
+    dispatch(clearIngredients());
+    dispatch(fetchFeed());
+    return result;
+  }
+);
 
 type TNewOrderState = {
   name: string;
-  orderRequest: boolean;
   orderModalData: TOrder | null;
   isModalOpen: boolean;
+  orderRequestSent: boolean;
 };
 
 const initialState: TNewOrderState = {
   name: '',
-  orderRequest: false,
   orderModalData: null,
-  isModalOpen: false
+  isModalOpen: false,
+  orderRequestSent: false
 };
 
 const orderSlice = createSlice({
@@ -25,24 +34,31 @@ const orderSlice = createSlice({
   reducers: {
     closeModal: (state) => {
       state.isModalOpen = false;
+    },
+    openModal: (state) => {
+      state.isModalOpen = true;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(sendNewOrder.pending, (state) => {
-        state.orderRequest = true;
         state.isModalOpen = true;
+        state.orderModalData = null;
+        state.orderRequestSent = true;
       })
       .addCase(sendNewOrder.fulfilled, (state, action) => {
         state.name = action.payload.name;
         state.orderModalData = action.payload.order;
-        state.orderRequest = false;
+        state.isModalOpen = true;
+        state.orderRequestSent = false;
       })
       .addCase(sendNewOrder.rejected, (state, action) => {
         console.log(action.error.message || 'Не получилось оформить заказ');
+        state.isModalOpen = false;
+        state.orderRequestSent = false;
       });
   }
 });
 
 export const orderReducer = orderSlice.reducer;
-export const { closeModal } = orderSlice.actions;
+export const { closeModal, openModal } = orderSlice.actions;
