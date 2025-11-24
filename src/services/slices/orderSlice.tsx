@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { orderBurgerApi } from '@api';
+import { getOrderByNumberApi, orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
 import { fetchFeed } from './feedSlice';
 import { clearIngredients } from './burgerConstructorSlice';
@@ -14,18 +14,25 @@ export const sendNewOrder = createAsyncThunk(
   }
 );
 
+export const getOrderByNumber = createAsyncThunk(
+  'order/getByNumber',
+  getOrderByNumberApi
+);
+
 type TNewOrderState = {
   name: string;
   orderModalData: TOrder | null;
   isModalOpen: boolean;
   orderRequestSent: boolean;
+  orderByNumber: TOrder | null;
 };
 
 const initialState: TNewOrderState = {
   name: '',
   orderModalData: null,
   isModalOpen: false,
-  orderRequestSent: false
+  orderRequestSent: false,
+  orderByNumber: null
 };
 
 const orderSlice = createSlice({
@@ -37,6 +44,9 @@ const orderSlice = createSlice({
     },
     openModal: (state) => {
       state.isModalOpen = true;
+    },
+    clearOrderByNumber: (state) => {
+      state.orderByNumber = null;
     }
   },
   extraReducers: (builder) => {
@@ -57,8 +67,20 @@ const orderSlice = createSlice({
         state.isModalOpen = false;
         state.orderRequestSent = false;
       });
+    builder
+      .addCase(getOrderByNumber.pending, (state, action) => {
+        console.log('Запрос на получение данных о заказе отправлен');
+      })
+      .addCase(getOrderByNumber.fulfilled, (state, action) => {
+        [state.orderByNumber] = action.payload.orders;
+      })
+      .addCase(getOrderByNumber.rejected, (state, action) => {
+        console.log(
+          action.error.message || 'Не удалось получить данные о заказе'
+        );
+      });
   }
 });
 
 export const orderReducer = orderSlice.reducer;
-export const { closeModal, openModal } = orderSlice.actions;
+export const { closeModal, openModal, clearOrderByNumber } = orderSlice.actions;
