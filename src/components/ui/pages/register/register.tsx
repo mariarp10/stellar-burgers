@@ -16,7 +16,11 @@ export const RegisterUI: FC<RegisterUIProps> = ({
   password,
   setPassword,
   userName,
-  setUserName
+  setUserName,
+  nameError,
+  emailError,
+  onNameBlur,
+  onEmailBlur
 }) => (
   <main className={styles.container}>
     <div className={`pt-6 ${styles.wrapCenter}`}>
@@ -32,10 +36,11 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               type='text'
               placeholder='Имя'
               onChange={(e) => setUserName(e.target.value)}
+              onBlur={onNameBlur}
               value={userName}
               name='name'
-              error={false}
-              errorText=''
+              error={!!nameError}
+              errorText={nameError}
               size='default'
             />
           </div>
@@ -44,11 +49,12 @@ export const RegisterUI: FC<RegisterUIProps> = ({
               type='email'
               placeholder='E-mail'
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={onEmailBlur}
               value={email}
-              name={'email'}
-              error={false}
-              errorText=''
-              size={'default'}
+              name='email'
+              error={!!emailError}
+              errorText={emailError}
+              size='default'
             />
           </div>
           <div className='pb-6'>
