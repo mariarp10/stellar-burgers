@@ -8,7 +8,7 @@ import { orderInitialState } from '../slices/order-slice/orderSlice';
 
 describe('rootReducer', () => {
   it('инициализация rootReducer', () => {
-    const initialState = rootReducer(undefined, { type: '@@INIT' });
+    const initialState = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
 
     expect(initialState).toEqual({
       ingredientsArray: ingredientsInitialState,
