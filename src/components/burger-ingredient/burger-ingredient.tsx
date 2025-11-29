@@ -9,7 +9,7 @@ import { useDispatch } from '../../services/store';
 import {
   addBun,
   addIngredient
-} from '../../services/slices/burgerConstructorSlice';
+} from '../../services/slices/burger-constructor-slice/burgerConstructorSlice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {

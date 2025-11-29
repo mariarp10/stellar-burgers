@@ -8,13 +8,11 @@ type TIngredientsState = {
   isLoading: boolean;
 };
 
-// изначально нет никаких ингрединтов, нужно их получить с сервера
-const initialState: TIngredientsState = {
+export const ingredientsInitialState: TIngredientsState = {
   ingredients: [],
   isLoading: false
 };
 
-// async thunk-функция для получения ингериентов с сервера
 export const fetchIngredients = createAsyncThunk(
   'fetchIngredients',
   async () => await getIngredientsApi()
@@ -22,7 +20,7 @@ export const fetchIngredients = createAsyncThunk(
 
 const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState,
+  initialState: ingredientsInitialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

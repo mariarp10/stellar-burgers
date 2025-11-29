@@ -8,7 +8,7 @@ import {
   getOrdersApi
 } from '@api';
 import { TOrder, TUser } from '@utils-types';
-import { setCookie, deleteCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie } from '../../../utils/cookie';
 
 export const userRegister = createAsyncThunk('user/register', registerUserApi);
 export const userLogin = createAsyncThunk('user/login', loginUserApi);
@@ -26,7 +26,7 @@ type TUserState = {
   orders: TOrder[];
 };
 
-const initialState: TUserState = {
+export const userInitialState: TUserState = {
   data: null,
   isLoading: false,
   serverError: '',
@@ -37,7 +37,7 @@ const initialState: TUserState = {
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: userInitialState,
   reducers: {
     finishAuthCheck(state) {
       state.checkAuth = true;

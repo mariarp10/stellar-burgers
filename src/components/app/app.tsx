@@ -22,9 +22,12 @@ import {
   OrderInfoModal
 } from '@components';
 
-import { fetchFeed } from '../../services/slices/feedSlice';
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
-import { getUser, finishAuthCheck } from '../../services/slices/userSlice';
+import { fetchFeed } from '../../services/slices/feed-slice/feedSlice';
+import { fetchIngredients } from '../../services/slices/ingredients-slice/ingredientsSlice';
+import {
+  getUser,
+  finishAuthCheck
+} from '../../services/slices/user-slice/userSlice';
 
 import { useEffect } from 'react';
 

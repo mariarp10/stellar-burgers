@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { userLogin } from '../../services/slices/userSlice';
+import { userLogin } from '../../services/slices/user-slice/userSlice';
 import { RootState, useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
 import { Preloader } from '@ui';

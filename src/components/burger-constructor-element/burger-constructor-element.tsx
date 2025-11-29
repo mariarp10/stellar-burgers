@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 
-import { deleteIngredient } from '../../services/slices/burgerConstructorSlice';
+import { deleteIngredient } from '../../services/slices/burger-constructor-slice/burgerConstructorSlice';
 
 import { useDispatch } from '../../services/store';
 

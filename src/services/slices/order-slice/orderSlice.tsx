@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderByNumberApi, orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
-import { fetchFeed } from './feedSlice';
-import { clearIngredients } from './burgerConstructorSlice';
+import { fetchFeed } from '../feed-slice/feedSlice';
+import { clearIngredients } from '../burger-constructor-slice/burgerConstructorSlice';
 
 export const sendNewOrder = createAsyncThunk(
   'order/sendNew',
@@ -27,7 +27,7 @@ type TNewOrderState = {
   orderByNumber: TOrder | null;
 };
 
-const initialState: TNewOrderState = {
+export const orderInitialState: TNewOrderState = {
   name: '',
   orderModalData: null,
   isModalOpen: false,
@@ -37,7 +37,7 @@ const initialState: TNewOrderState = {
 
 const orderSlice = createSlice({
   name: 'order',
-  initialState,
+  initialState: orderInitialState,
   reducers: {
     closeModal: (state) => {
       state.isModalOpen = false;
