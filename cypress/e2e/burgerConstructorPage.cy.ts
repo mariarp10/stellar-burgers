@@ -1,4 +1,12 @@
 import { TIngredient } from '../../src/utils/types';
+import {
+  BURGER_BUN,
+  BURGER_INGREDIENT,
+  INGREDIENT_MODAL,
+  MODAL_TITLE,
+  MODAL_CLOSE_BUTTON,
+  MODAL_OVERLAY
+} from './selectors';
 
 describe('Тест для страницы конструктора', () => {
   beforeEach(() => {
@@ -11,7 +19,7 @@ describe('Тест для страницы конструктора', () => {
     }).as('getUser');
 
     cy.setCookie('accessToken', 'Bearer test-access-token');
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
     cy.wait('@getIngredients');
   });
   it('Добавление булки в конструктор', () => {
@@ -23,10 +31,7 @@ describe('Тест для страницы конструктора', () => {
 
       cy.get('@targetBun').contains('button', 'Добавить').click();
 
-      cy.get('[data-cy="burger-constructor-bun"]').should(
-        'contain.text',
-        bunName
-      );
+      cy.get(BURGER_BUN).should('contain.text', bunName);
     });
   });
   it('Добавление начинок в конструктор', () => {
@@ -38,10 +43,7 @@ describe('Тест для страницы конструктора', () => {
 
       cy.get('@targetIngredient').contains('button', 'Добавить').click();
 
-      cy.get('[data-cy="burger-constructor-ingredient"]').should(
-        'contain.text',
-        ingredientName
-      );
+      cy.get(BURGER_INGREDIENT).should('contain.text', ingredientName);
     });
   });
   it('Модальное окно ингредиента открывается и закрывается по крестику', () => {
@@ -61,7 +63,7 @@ describe('Тест для страницы конструктора', () => {
 
       cy.contains('p', name).closest('li').find('a').click();
 
-      cy.get('[data-cy="ingredient-modal"]')
+      cy.get(INGREDIENT_MODAL)
         .should('be.visible')
         .within(() => {
           expectedModalContent.forEach((item) => {
@@ -69,41 +71,38 @@ describe('Тест для страницы конструктора', () => {
           });
         });
 
-      cy.get('[data-cy="ingredient-modal"]')
+      cy.get(INGREDIENT_MODAL)
         .should('be.visible')
         .find('img')
         .should('have.attr', 'src', imageUrl);
 
-      cy.get('[data-cy="modal-title"]').should(
-        'contain.text',
-        'Детали ингредиента'
-      );
+      cy.get(MODAL_TITLE).should('contain.text', 'Детали ингредиента');
 
-      cy.get('[data-cy="modal-close-button"]').click();
+      cy.get(MODAL_CLOSE_BUTTON).click();
 
-      cy.get('[data-cy="ingredient-modal"]').should('not.exist');
+      cy.get(INGREDIENT_MODAL).should('not.exist');
 
       cy.get('body').type('{esc}');
 
-      cy.get('[data-cy="ingredient-modal"]').should('not.exist');
+      cy.get(INGREDIENT_MODAL).should('not.exist');
     });
   });
   it('Модальное окно закрывается по клику на esc', () => {
     cy.fixture('mockIngredients.json').then((fixture) => {
       const { name, _ } = fixture.data[0];
       cy.contains('p', name).closest('li').find('a').click();
-      cy.get('[data-cy="ingredient-modal"]').should('be.visible');
+      cy.get(INGREDIENT_MODAL).should('be.visible');
       cy.get('body').type('{esc}');
-      cy.get('[data-cy="ingredient-modal"]').should('not.exist');
+      cy.get(INGREDIENT_MODAL).should('not.exist');
     });
   });
   it('Модальное окно закрывается по клику на overlay', () => {
     cy.fixture('mockIngredients.json').then((fixture) => {
       const { name, _ } = fixture.data[0];
       cy.contains('p', name).closest('li').find('a').click();
-      cy.get('[data-cy="ingredient-modal"]').should('exist');
-      cy.get('[data-cy="modal-overlay"]').click({ force: true });
-      cy.get('[data-cy="ingredient-modal"]').should('not.exist');
+      cy.get(INGREDIENT_MODAL).should('exist');
+      cy.get(MODAL_OVERLAY).click({ force: true });
+      cy.get(INGREDIENT_MODAL).should('not.exist');
     });
   });
   it('Создание и отправка заказа', () => {
@@ -129,14 +128,8 @@ describe('Тест для страницы конструктора', () => {
       cy.contains('p', main.name).closest('li').as('targetMain');
       cy.get('@targetMain').contains('button', 'Добавить').click();
 
-      cy.get('[data-cy="burger-constructor-bun"]').should(
-        'contain.text',
-        bun.name
-      );
-      cy.get('[data-cy="burger-constructor-ingredient"]').should(
-        'contain.text',
-        main.name
-      );
+      cy.get(BURGER_BUN).should('contain.text', bun.name);
+      cy.get(BURGER_INGREDIENT).should('contain.text', main.name);
 
       cy.contains('button', 'Оформить заказ').click();
 
@@ -146,18 +139,18 @@ describe('Тест для страницы конструктора', () => {
     cy.fixture('mockOrder.json').then((orderFixture) => {
       const orderNumber = String(orderFixture.order.number);
 
-      cy.get('[data-cy="ingredient-modal"]')
+      cy.get(INGREDIENT_MODAL)
         .contains(orderNumber)
         .should('be.visible')
-        .closest('[data-cy="ingredient-modal"]')
+        .closest(INGREDIENT_MODAL)
         .as('orderModal');
 
-      cy.get('@orderModal').find('[data-cy="modal-close-button"]').click();
+      cy.get('@orderModal').find(MODAL_CLOSE_BUTTON).click();
 
-      cy.get('[data-cy="ingredient-modal"]').should('not.exist');
+      cy.get(INGREDIENT_MODAL).should('not.exist');
 
-      cy.get('[data-cy="burger-constructor-bun"]').should('not.exist');
-      cy.get('[data-cy="burger-constructor-ingredient"]').should('not.exist');
+      cy.get(BURGER_BUN).should('not.exist');
+      cy.get(BURGER_INGREDIENT).should('not.exist');
     });
   });
 });

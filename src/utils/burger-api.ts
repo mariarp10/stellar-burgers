@@ -22,7 +22,8 @@ export const refreshToken = (): Promise<TRefreshResponse> =>
       'Content-Type': 'application/json;charset=utf-8'
     },
     body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
+      //token: localStorage.getItem('refreshToken')
+      token: getCookie('refreshToken')
     })
   })
     .then((res) => checkResponse<TRefreshResponse>(res))
@@ -30,7 +31,8 @@ export const refreshToken = (): Promise<TRefreshResponse> =>
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-      localStorage.setItem('refreshToken', refreshData.refreshToken);
+      //localStorage.setItem('refreshToken', refreshData.refreshToken);
+      setCookie('refreshToken', refreshData.refreshToken);
       setCookie('accessToken', refreshData.accessToken);
       return refreshData;
     });
