@@ -7,7 +7,7 @@ import {
   sendNewOrder,
   closeModal,
   openModal
-} from '../../services/slices/orderSlice';
+} from '../../services/slices/order-slice/orderSlice';
 import { useDispatch } from '../../services/store';
 
 export const BurgerConstructor: FC = () => {

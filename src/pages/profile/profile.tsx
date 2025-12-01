@@ -3,7 +3,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { RootState, useSelector } from '../../services/store';
 import { TUser } from '@utils-types';
 import { TRegisterData } from '@api';
-import { updateUser } from '../../services/slices/userSlice';
+import { updateUser } from '../../services/slices/user-slice/userSlice';
 import { useDispatch } from '../../services/store';
 
 export const Profile: FC = () => {

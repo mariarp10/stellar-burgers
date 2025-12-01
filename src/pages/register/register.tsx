@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
-import { userRegister } from '../../services/slices/userSlice';
+import { userRegister } from '../../services/slices/user-slice/userSlice';
 import { TRegisterData } from '@api';
 import { RootState, useSelector } from '../../services/store';
 import { Preloader } from '@ui';

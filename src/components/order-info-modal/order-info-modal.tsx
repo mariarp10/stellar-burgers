@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Modal } from '../modal';
 import { OrderInfo } from '../order-info/order-info';
-import { clearOrderByNumber } from '../../services/slices/orderSlice';
+import { clearOrderByNumber } from '../../services/slices/order-slice/orderSlice';
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 
